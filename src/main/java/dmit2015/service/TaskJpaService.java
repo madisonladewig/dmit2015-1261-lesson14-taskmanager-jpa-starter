@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-@Named("jakartaPersistenceTaskService")
+@Named("taskJpaService")
 @ApplicationScoped
 public class TaskJpaService implements TaskService {
 
@@ -85,6 +85,14 @@ public class TaskJpaService implements TaskService {
         } else {
             throw new RuntimeException("Could not find Task with id: " + id);
         }
+    }
+
+    @Override
+    public long count() {
+        return (long) entityManager.createQuery("""
+            select count(t)
+            from Task t
+    """).getSingleResult();
     }
 
 }

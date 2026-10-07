@@ -7,6 +7,7 @@ import jakarta.enterprise.context.Initialized;
 import jakarta.enterprise.event.Observes;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
+import net.datafaker.Faker;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -39,7 +40,7 @@ public class TaskInitializer {
     public void initialize(@Observes @Initialized(ApplicationScoped.class) Object event) {
         logger.info("Initializing tasks");
 
-        if (taskJpaService.getAllTasks().size() == 0) {
+        if (taskJpaService.count() == 0) {
             /* You have three options for creating the test data:
                 Option 1) Hard code the test data when testing a small dataset.
                 Option 2) Read the test data from a text file when testing a large dataset.
@@ -52,6 +53,17 @@ public class TaskInitializer {
                 // TODO: Create a new entity instance
                 // TODO: Set the properties of the entity instance
                 // TODO: Add the entity instance to the JPA repository
+
+                var faker = new Faker();
+                for (int count = 1; count <= 32; count++) {
+
+                    //Need to make the instance first:
+                    Task currentTask = Task.of(faker);
+
+                    //Now we use the service that was injected above to create a new task, passing in the task that the faker just made.
+                    taskJpaService.createTask(currentTask);
+
+                }
 
                 // Starter code to read data from a text file one line at a time.
 //                    try (var reader = new BufferedReader(new InputStreamReader(Objects.requireNonNull(getClass().getResourceAsStream("/data/filename.csv"))))) {

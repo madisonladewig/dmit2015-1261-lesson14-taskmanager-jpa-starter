@@ -2,6 +2,7 @@ package dmit2015.view;
 
 import dmit2015.model.Task;
 import dmit2015.model.TaskPriority;
+import dmit2015.service.TaskJpaService;
 import dmit2015.service.TaskService;
 import jakarta.annotation.PostConstruct;
 import jakarta.faces.view.ViewScoped;
@@ -30,7 +31,8 @@ public class TaskCrudView implements Serializable {
     }
 
     @Inject
-    @Named("memoryTaskService")
+    @Named("taskJpaService")
+    //@Named("memoryTaskService")
     private TaskService taskService;
 
     /**
