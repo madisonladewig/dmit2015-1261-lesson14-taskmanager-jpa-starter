@@ -95,4 +95,9 @@ public class TaskJpaService implements TaskService {
     """).getSingleResult();
     }
 
+    @Override
+    public void deleteAllTasks() {
+        entityManager.createQuery("DELETE FROM Task t").executeUpdate();
+    }
+
 }
